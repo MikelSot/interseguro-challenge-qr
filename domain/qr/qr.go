@@ -1,5 +1,7 @@
-package domain
+package qr
+
+import "github.com/MikelSot/interseguro-challenge-qr/model"
 
 type UseCase interface {
-	GenerateQR() (string, error)
+	FactorizeQR(matrix [][]float64) (model.QR, error)
 }
