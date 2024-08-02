@@ -1,4 +1,4 @@
-package qr
+package challenge
 
 import (
 	"errors"
@@ -7,23 +7,22 @@ import (
 	"github.com/gofiber/fiber/v2"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/MikelSot/interseguro-challenge-qr/domain/qr"
+	"github.com/MikelSot/interseguro-challenge-qr/domain/challenge"
 	"github.com/MikelSot/interseguro-challenge-qr/model"
 )
 
 type handler struct {
-	useCase qr.UseCase
+	useCase challenge.UseCase
 }
 
-func newHandler(uc qr.UseCase) handler {
-	return handler{uc}
+func newHandler(cu challenge.UseCase) handler {
+	return handler{cu}
 }
 
-func (h handler) FactorizeQR(c *fiber.Ctx) error {
+func (h handler) Challenge(c *fiber.Ctx) error {
 	payload := model.Matrix{}
-
 	if err := c.BodyParser(&payload); err != nil {
-		log.Warn("qr: ¡Uy! Error al leer el cuerpo de la solicitud", err.Error())
+		log.Warn("challenge: ¡Uy! Error al leer el cuerpo de la solicitud", err.Error())
 
 		return c.Status(fiber.StatusBadRequest).JSON(model.MessageResponse{
 			Errors: model.Responses{
@@ -32,9 +31,9 @@ func (h handler) FactorizeQR(c *fiber.Ctx) error {
 		})
 	}
 
-	factorizeQr, err := h.useCase.FactorizeQR(payload.Matrix)
+	m, err := h.useCase.Challenge(payload.Matrix)
 	if err != nil {
-		log.Warn("qr: usecase.FactorizeQR()", err.Error())
+		log.Warn("challenge: useCase.Challenge(): ", err.Error())
 
 		customErr := model.NewError()
 		if errors.As(err, &customErr) {
@@ -48,5 +47,5 @@ func (h handler) FactorizeQR(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.Status(http.StatusOK).JSON(model.MessageResponse{Data: factorizeQr})
+	return c.Status(http.StatusOK).JSON(model.MessageResponse{Data: m})
 }

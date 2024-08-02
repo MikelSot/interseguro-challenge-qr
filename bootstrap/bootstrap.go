@@ -18,6 +18,9 @@ func Run() {
 	handler.InitRoutes(model.RouterSpecification{
 		App:    app,
 		Logger: logger,
+		ConfigStatistic: model.ConfigStatistic{
+			UrlStatistic: getRouteStatistic(),
+		},
 	})
 
 	log.Fatal(app.Listen(getPort()))

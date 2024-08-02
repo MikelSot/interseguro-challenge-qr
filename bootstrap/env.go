@@ -50,3 +50,12 @@ func getAllowMethods() string {
 
 	return allowedMethods
 }
+
+func getRouteStatistic() string {
+	routeStatistic := os.Getenv("ROUTE_STATISTIC")
+	if routeStatistic == "" {
+		return ""
+	}
+
+	return routeStatistic
+}

@@ -5,6 +5,7 @@ import (
 )
 
 type RouterSpecification struct {
-	App    *fiber.App
-	Logger Logger
+	App             *fiber.App
+	Logger          Logger
+	ConfigStatistic ConfigStatistic
 }

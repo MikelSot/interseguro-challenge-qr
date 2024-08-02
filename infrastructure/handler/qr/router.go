@@ -14,7 +14,7 @@ const (
 func NewRouter(spec model.RouterSpecification) {
 	handler := buildHandler()
 
-	publicRoutes(spec.App, handler)
+	privateRoutes(spec.App, handler)
 
 }
 
@@ -24,7 +24,7 @@ func buildHandler() handler {
 	return newHandler(useCase)
 }
 
-func publicRoutes(app *fiber.App, handler handler, middlewares ...fiber.Handler) {
+func privateRoutes(app *fiber.App, handler handler, middlewares ...fiber.Handler) {
 	api := app.Group(_privateRoutePrefix, middlewares...)
 
 	api.Post("", handler.FactorizeQR)
