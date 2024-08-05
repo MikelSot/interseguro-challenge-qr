@@ -58,7 +58,7 @@ func (s Statistic) doRequest(payload []byte) ([]byte, error) {
 	req.Header.Add(_headerContentType, _headerContentTypeValue)
 
 	client := http.Client{
-		Timeout: time.Second * 10,
+		Timeout: time.Second * 120,
 	}
 
 	res, err := client.Do(req)
